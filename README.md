@@ -11,6 +11,7 @@ The main features of Ledgerdata Refiner are as follows:
 + schema analysis for states in json format
 + fine-grained search for values in json format of states
 + A Dashboard to display system overview
+![History Tracking](DemoUI/Query Document History—Ledger Data Refiner(1).png)
 
 ## Minimum requirements
 
