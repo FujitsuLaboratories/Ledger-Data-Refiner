@@ -1,0 +1,322 @@
+<!--
+  Copyright Fujitsu Corp. All Rights Reserved.
+
+  SPDX-License-Identifier: Apache-2.0 
+-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Expires" CONTENT="0">
+    <meta http-equiv="Cache-Control" CONTENT="no-cache">
+    <meta http-equiv="Pragma" CONTENT="no-cache">
+    <meta http-equiv = "X-UA-Compatible" content = "IE=edge,chrome=1" />
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>Advanced Query for Ledger Data—Ledger Data Refiner</title>
+    <link rel="icon" href="/static/img/icon.png"/>
+    <link rel="stylesheet" href="/static/stylesheets/animate.css">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="/static/bootstrap/dist/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="/static/font-awesome/css/font-awesome.min.css">
+
+    <!-- DataTables -->
+    <link rel="stylesheet" href="/static/datatables.net-bs/css/dataTables.bootstrap.min.css">
+ 
+    <link rel="stylesheet" href="/static/stylesheets/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="/static/stylesheets/jquery.json-viewer.css">
+    <link rel="stylesheet" href="/static/stylesheets/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="/static/stylesheets/hover.css">
+    <link rel="stylesheet" href="/static/stylesheets/ledger.css">  
+  </head>
+  <body class="advanced-body">
+
+    <section>
+      <header class="header-bg">
+        <div class="container-self">
+          <div class="row">
+            <nav class="navbar navbar-default">
+              <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </button>
+                  <a class="navbar-brand"><span>Ledger</span><span class="logo-d"></span><span>ata</span><br/>Refiner</a>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+                  <div class="link-effect-2">
+                     <ul class="nav navbar-nav nav-animate-self">
+                       <li><a href="/dashboard.html"><span data-hover="DASHBOARD">DASHBOARD</span></a></li>
+                       <li class="dropdown">
+                         <a href="###" class="dropdown-toggle"><span data-hover="OVERVIEW">OVERVIEW</span> <b class="caret"></b></a>
+                         <ul class="dropdown-menu">
+                           <li><a href="/blocks.html">BLOCKS</a></li>
+                           <li><a href="/transaction.html">TRANSACTIONS</a></li>
+                         </ul>
+                       </li>
+                       <li><a href="/history.html"><span data-hover="HISTORY">HISTORY</span></a></li>
+
+                       <li><a class="nav-active" href="/advance.html"><span data-hover="ADVANCED QUERY"> ADVANCED QUERY</span></a></li>
+                       <!--<li><a href="/conflict"><span data-hover="CONFLICT ANALYSIS">CONFLICT ANALYSIS</span></a></li>-->
+                     </ul>
+                   </div>
+                </div><!-- /.navbar-collapse -->
+              </div><!-- /.container-fluid -->
+            </nav>
+          </div>
+        </div>
+
+      </header>
+      <section class="slide-img">
+        <div class="container-self">
+          <div class="row">
+            <div>
+              <span class="advance-chaincode-name">Chaincode</span>
+              <select class="form-control advance-select" id="advance-chaincode-name">
+
+              </select>
+            </div>
+            <h3 class="schema-h3-document">Document Schemas</h3>
+            <div class="schema-contain">
+              <div class="prev-btn" data-prevIndex="-1" id="prev-slide">
+                <i class="fa fa-long-arrow-left prev-icon-left display-none" aria-hidden="true"></i>
+              </div>
+              <div class="json-content-slide">
+                <div class="json-content" id="json-content">
+                </div>
+              </div>
+
+              <div class="next-btn" data-nextIndex="5" id="next-slide">
+                <i class="fa fa-long-arrow-right next-icon-right display-none" aria-hidden="true"></i>
+              </div>
+            </div>
+          </div>
+          <br/>
+        </div>
+      </section>
+      <section class="schema-input-section">
+
+        <div class="container-self">
+          <div class="row">
+
+            <div class="schema-input-form" id="schema-input-form">
+              <ul class="list-inline section-input-title">
+                <li class="col-sm-6"><h3 class="schema-h3">SELECTIONS</h3></li>
+                <li class="col-sm-6"><h3 class="schema-h3">CONDITIONS</h3></li>
+              </ul>
+
+              <ul class="list-inline">
+                <li class="col-sm-6 select-col-left">
+                    <div class="select-left" id="schema-left-input">
+                      <div class="select-left-item">
+                        <div class="col-sm-5">
+                          <input type="text" class="form-control" placeholder="Country,Province,City">
+                        </div>
+                        <div class="col-sm-1 select-left-as">
+                          <div class="text-center"> AS </div>
+                        </div>
+                        <div class="col-sm-5">
+                          <input type="text" class="form-control" placeholder="City">
+                        </div>
+                        <div class="col-sm-1 select-left-close">
+                          <div class="text-center"><span class="schema-close">×</span></div>
+                        </div>
+                      </div>
+                    </div>
+                </li>
+
+                <li class="col-sm-6 select-col-right">
+
+                    <div class="select-right" id="schema-right-input">
+                      <div class="select-right-item">
+                        <div class="col-sm-5 col-md-5 col-lg-5">
+                          <input type="text" class="form-control" placeholder="Country,Province,City">
+                        </div>
+                        <div class="col-sm-1 select-right-select">
+                          <select class="form-control">
+                            <option value="=">=</option>
+                            <option value=">=">>=</option>
+                            <option value=">">></option>
+                            <option value="<"><</option>
+                            <option value="<="><=</option>
+                            <option value="!=">!=</option>
+                            <option value="LIKE">LIKE</option>
+                          </select>
+                        </div>
+                        <div class="col-sm-5">
+                          <input type="text" class="form-control" placeholder="Suzhou">
+                        </div>
+                        <div class="col-sm-1 select-right-close">
+                          <div class="text-center"><span class="schema-close">×</span></div>
+                        </div>
+                      </div>
+                    </div>
+
+                </li>
+              </ul>
+              <div class="clearfix">
+
+              </div>
+
+            </div>
+            <br/>
+            <br/>
+            <div class="text-center">
+              <button class="btn btn-default schema-btn" id="reset-input" type="button" name="button">Reset</button>
+              <button class="btn btn-default reset-btn" id="schema-search" type="button" name="button">Search</button>
+              <!-- reset-btn -->
+            </div>
+            <br/>
+          </div>
+
+        </div>
+      </section>
+      <section  class="schema-table-contain display-none" id="schema-table-section">
+
+        <div class="container-self">
+          <div class="row">
+              <br/>
+              <div class="block-table-contain dataTables_wrapper form-inline dt-bootstrap no-footer table-responsive">
+                <div class="row"><div class="col-sm-6"><div class="dataTables_length" id="paging-length"><label>Show <select name="example1_length" class="form-control input-sm" id="select-paging"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-6"></div></div>
+                <div class="row">
+                  <div id="schema-dockey">
+                    <div class="col-sm-12" id="block-table-col">
+                      <table id="block-table" class="table table-striped block-table advance-table table-bordered dataTable no-footer">
+                        <thead>
+
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+
+                      </table>
+                    </div>
+                    <div class="col-sm-5" id="entries-info"><div class="dataTables_info" id="table-info" role="status" aria-live="polite">Showing <span id="number-start"></span> to <span id="number-end"></span> of <span id="number-total"></span> entries</div></div>
+                    <div class="col-sm-7" id="entries-page">
+                      <div class="dataTables_paginate paging_simple_numbers" >
+                        <ul class="pagination" id="table-paginate">
+                          <li class="paginate_button previous disabled" id="example1_previous"><a>Previous</a></li>
+                          <li class="paginate_button next" id="example1_next"><a>Next</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <br/>
+                    <br/>
+              </div>
+
+          </div>
+        </div>
+
+      </section>
+      <br />
+      <br />
+      <br />
+      <footer class="footer-style text-center">Copyright 2019—2022 FUJITSU All Rights Reserved</footer>
+    </section>
+
+    <!-- Modal -->
+    <div class="modal fade bs-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title text-center" id="myModalLabel">Advance Query Details</h4>
+          </div>
+          <div class="modal-body">
+            <form class="form-horizontal form-details" id="block-form">
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Block Number</label>
+                <div class="col-sm-9">
+                  <div class="block-detail"><span></span></div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Tx Number</label>
+                <div class="col-sm-9">
+                  <div class="block-detail"><span></span></div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Tx Hash</label>
+                <div class="col-sm-9">
+                  <div class="block-detail"><span></span><i class="fa fa-copy" aria-hidden="true"></i></div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Chaincode Name</label>
+                <div class="col-sm-9">
+                  <div class="block-detail"><span></span></div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Tx Type</label>
+                <div class="col-sm-9">
+                  <div class="block-detail"><span></span></div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Create MSP</label>
+                <div class="col-sm-9">
+                  <div class="block-detail"><span></span></div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Endorser MSP</label>
+                <div class="col-sm-9">
+                  <div class="block-detail"><span></span></div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Doc Key</label>
+                <div class="col-sm-9">
+                  <div class="block-detail"><span></span></div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Doc Content</label>
+                <div class="col-sm-9">
+                  <div class="block-detail"><pre class="doc-content" id="doc-content"></pre></div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Is Delete</label>
+                <div class="col-sm-9">
+                  <div class="block-detail"><span></span></div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Create Time</label>
+                <div class="col-sm-9">
+                  <div class="block-detail"><span></span></div>
+                </div>
+              </div>
+              <br/>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div id="hidden-copy-input"></div>
+  </body>
+</html>
+<script src="/static/javascripts/jquery-3.1.1.min.js"></script>
+<script src="/static/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="/static/javascripts/bootstrap-datetimepicker.js"></script>
+<script src="/static/javascripts/jquery.json-viewer.js"></script>
+<script src="/static/javascripts/jquery.createTable.js"></script>
+<script src="/static/javascripts/config.js"></script>
+<script src="/static/javascripts/public.js"></script>
+<script src="/static/javascripts/advancedQuery.js"></script>
+

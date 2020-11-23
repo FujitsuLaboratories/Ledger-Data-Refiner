@@ -1,0 +1,296 @@
+<!--
+  Copyright Fujitsu Corp. All Rights Reserved.
+
+  SPDX-License-Identifier: Apache-2.0 
+-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Expires" CONTENT="0">
+    <meta http-equiv="Cache-Control" CONTENT="no-cache">
+    <meta http-equiv="Pragma" CONTENT="no-cache">
+    <meta http-equiv = "X-UA-Compatible" content = "IE=edge,chrome=1" />
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>Query Transactions—Ledger Data Refiner</title>
+    <link rel="icon" href="/static/img/icon.png"/>
+    <link rel="stylesheet" href="/static/stylesheets/animate.css">
+    <link rel="stylesheet" href="/static/bootstrap/dist/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="/static/font-awesome/css/font-awesome.min.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="/static/datatables.net-bs/css/dataTables.bootstrap.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+           folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="/static/stylesheets/AdminLTE.min.css">
+    <link rel="stylesheet" href="/static/stylesheets/jquery.json-viewer.css">  
+    <link rel="stylesheet" href="/static/stylesheets/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="/static/stylesheets/ledger.css">  
+  </head>
+  <body>
+    <section class="section-bg">
+      <header class="header-bg">
+        <div class="container-self">
+          <div class="row">
+            <nav class="navbar navbar-default">
+              <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </button>
+                  <a class="navbar-brand"><span>Ledger</span><span class="logo-d"></span><span>ata</span><br/>Refiner</a>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                  <div class="link-effect-2">
+                     <ul class="nav navbar-nav nav-animate-self">
+                       <li><a href="/dashboard.html"><span data-hover="DASHBOARD">DASHBOARD</span></a></li>
+                       <li class="dropdown">
+                         <a href="###" class="dropdown-toggle nav-active"><span data-hover="OVERVIEW">OVERVIEW</span> <b class="caret"></b></a>
+                         <ul class="dropdown-menu">
+                           <li><a href="/blocks.html">BLOCKS</a></li>
+                           <li><a href="/transaction.html" class="nav-li-active">TRANSACTIONS</a></li>
+                         </ul>
+                       </li>
+                       <li><a href="/history.html"><span data-hover="HISTORY">HISTORY</span></a></li>
+
+                       <li><a href="/advance.html"><span data-hover="ADVANCED QUERY"> ADVANCED QUERY</span></a></li>
+                      <!-- <li><a href="/conflict"><span data-hover="CONFLICT ANALYSIS">CONFLICT ANALYSIS</span></a></li>-->
+                     </ul>
+
+                   </div>
+                </div><!-- /.navbar-collapse -->
+              </div><!-- /.container-fluid -->
+            </nav>
+          </div>
+        </div>
+
+      </header>
+      <section>
+        <div class="container-self">
+
+          <div class="row">
+            <div class="blocks-contain">
+              <ol class="breadcrumb">
+                <li>OVERVIEW</li>
+                <li class="active">TRANSACTIONS</li>
+              </ol>
+              <div class="blocks-tab">
+                <ul class="list-inline" id="tab-click">
+                  <li class="blocks-active">Query by Time</li>
+                  <li>Query by Block Height</li>
+                  <li>Query by Tx Hash</li>
+                </ul>
+              </div>
+              <div class="table-contain">
+                <div class="table-search" id="table-search">
+
+                  <form class="form-inline clearfix" onsubmit="return false;">
+                    <div class="block-search">                                         <!----------  search ----------------->
+                      <div class="form-group">
+                        <i class="fa fa-calendar input-calendar" aria-hidden="true"></i>
+                        <input type="text" class="form-control input-form-control datetimepicker" name="startTime" id="start-time" autocomplete="off" placeholder="Start Time">
+                      </div>
+                      <div class="straight-line"></div>
+                      <div class="form-group">
+                          <i class="fa fa-calendar input-calendar" aria-hidden="true"></i>
+                        <input type="text" class="form-control input-form-control datetimepicker" name="endTime" id="end-time" autocomplete="off" placeholder="End Time">
+                      </div>
+                      <div class="form-group">
+                      <select class="form-control select-form-control" name="" id="transaction-creater">
+                        <option value="Please select">Select The Creator of Tx</option>
+
+                      </select>
+                      </div>
+                      <button type="button" class="btn btn-default hvr-rectangle-out2" id="block-time-search"><i class="fa fa-search" aria-hidden="true"></i></button>
+                    </div>
+                  </form>
+                  <form class="form-inline clearfix display-none" onsubmit="return false;">
+                    <div class="block-search">
+                      <div class="input-group block-number">
+                         <input type="text" id="block-number-input" autocomplete="off" class="form-control" placeholder="Query by Block Height">
+                         <span class="input-group-btn">
+                           <button class="btn btn-default" id="block-number-search" type="button">Search</button>
+                         </span>
+                       </div>
+                    </div>
+                  </form>
+                  <form class="form-inline clearfix display-none" onsubmit="return false;">
+                    <div class="block-search">
+                      <div class="input-group block-number">
+                         <input type="text" id="block-hash-input" class="form-control" autocomplete="off" placeholder="Query by Tx Hash">
+                         <span class="input-group-btn">
+                           <button class="btn btn-default" id="block-hash-search" type="button">Search</button>
+                         </span>
+                       </div>
+                    </div>
+                  </form>
+                </div>
+
+                <div class="block-table-contain dataTables_wrapper form-inline dt-bootstrap no-footer table-responsive">
+                  <div class="row"><div class="col-sm-6"><div class="dataTables_length" id="paging-length"><label>Show <select name="example1_length" class="form-control input-sm" id="select-paging"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-6"></div></div>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <table id="block-table" class="table table-striped block-table table-bordered dataTable no-footer">
+                        <thead>
+                          <tr>
+                            <th class="sorting_desc">Block Height</th>
+                            <th>Tx Number</th>
+                            <th>Tx Hash</th>
+                            <th>Chaincode Name</th>
+                            <th>Tx Type</th>
+                            <th>Creator MSP</th>
+                            <th>Endorser MSP</th>
+                            <th>Create Time</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                      </tbody>
+
+                      </table>
+                    </div>
+                    <div class="col-sm-5" id="entries-info"><div class="dataTables_info" id="table-info" role="status" aria-live="polite">Showing <span id="number-start"></span> to <span id="number-end"></span> of <span id="number-total"></span> entries</div></div>
+                    <div class="col-sm-7" id="entries-page"><div class="dataTables_paginate paging_simple_numbers" >
+                      <ul class="pagination" id="table-paginate">
+                        <li class="paginate_button previous disabled" id="example1_previous"><a>Previous</a></li>
+                        <li class="paginate_button next" id="example1_next"><a>Next</a></li>
+                      </ul>
+                    </div></div>
+                  </div>
+                  <br/>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer-style text-center">Copyright 2019—2022 FUJITSU All Rights Reserved</footer>
+    </section>
+
+    <div class="bg-color1">
+
+    </div>
+    <div class="bg-color2">
+
+    </div>
+    <br />
+    <br />
+    <br />
+    
+    <!-- Modal -->
+    <div class="modal fade bs-example-modal-lg " id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title text-center" id="myModalLabel2">Transaction Details</h4>
+          </div>
+          <div class="modal-body">
+            <form class="form-horizontal form-details" id="block-form2">
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Block Height</label>
+                <div class="col-sm-9">
+                  <div class="block-detail"><span></span></div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Tx Number</label>
+                <div class="col-sm-9">
+                  <div class="block-detail"><span></span></div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Tx Hash</label>
+                <div class="col-sm-9">
+                  <div class="block-detail"><span></span><i class="fa fa-copy" aria-hidden="true"></i></div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Chaincode Name</label>
+                <div class="col-sm-9">
+                  <div class="block-detail"><span></span></div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Tx Type</label>
+                <div class="col-sm-9">
+                  <div class="block-detail"><span></span></div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Function</label>
+                <div class="col-sm-9">
+                  <div class="block-detail"><span></span></div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Parameters</label>
+                <div class="col-sm-9">
+                  <div class="block-detail"><span></span></div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Read Set</label>
+                <div class="col-sm-9">
+                  <div class="block-detail read-set" id="read-set"></div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Write Set</label>
+                <div class="col-sm-9">
+                  <div class="block-detail write-set" id="write-set"></div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Creator MSP</label>
+                <div class="col-sm-9">
+                  <div class="block-detail"><span></span></div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Endorser MSP</label>
+                <div class="col-sm-9">
+                  <div class="block-detail"><span></span></div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Endorser Signature</label>
+                <div class="col-sm-9">
+                  <div class="block-detail endorser-signature" id="endorser-signature"></div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Create Time</label>
+                <div class="col-sm-9">
+                  <div class="block-detail"><span></span></div>
+                </div>
+              </div>
+              <br/>
+            </form>
+            <div id="copy-input">
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+<script src="/static/javascripts/jquery-3.1.1.min.js"></script>
+<script src="/static/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="/static/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="/static/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+<script src="/static/javascripts/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+<script src="/static/javascripts/jquery.json-viewer.js"></script>
+<script src="/static/javascripts/jquery.createTable.js"></script>
+<script src="/static/javascripts/config.js"></script>
+<script src="/static/javascripts/public.js"></script>
+<script src="/static/javascripts/transaction.js"></script>

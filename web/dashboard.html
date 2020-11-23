@@ -1,0 +1,244 @@
+<!--
+  Copyright Fujitsu Corp. All Rights Reserved.
+
+  SPDX-License-Identifier: Apache-2.0 
+-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Expires" CONTENT="0">
+    <meta http-equiv="Cache-Control" CONTENT="no-cache">
+    <meta http-equiv="Pragma" CONTENT="no-cache">
+    <meta http-equiv = "X-UA-Compatible" content = "IE=edge,chrome=1" />
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>Dashboard—Ledger Data Refiner</title>
+    <link rel="icon" href="/static/img/icon.png"/>
+    <link rel="stylesheet" href="/static/stylesheets/animate.css">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="/static/bootstrap/dist/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="/static/font-awesome/css/font-awesome.min.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="/static/datatables.net-bs/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="/static/stylesheets/AdminLTE.min.css">
+    <link rel="stylesheet" href="/static/stylesheets/ledger.css">  
+  </head>
+  <body>
+    <section class="section-bg">
+      <header class="header-bg">
+        <div class="container-self">
+          <div class="row">
+            <nav class="navbar navbar-default">
+              <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </button>
+                  <a class="navbar-brand"><span>Ledger</span><span class="logo-d"></span><span>ata</span><br/>Refiner</a>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+                  <div class="link-effect-2">
+                     <ul class="nav navbar-nav nav-animate-self">
+                       <li><a class="nav-active" href="/dashboard.html"><span data-hover="DASHBOARD">DASHBOARD</span></a></li>
+                       <li class="dropdown">
+                         <a href="###" class="dropdown-toggle"><span data-hover="OVERVIEW">OVERVIEW</span> <b class="caret"></b></a>
+                         <ul class="dropdown-menu">
+                           <li><a href="/blocks.html">BLOCKS</a></li>
+                           <li><a href="/transaction.html">TRANSACTIONS</a></li>
+                         </ul>
+                       </li>
+                       <li><a href="/history.html"><span data-hover="HISTORY">HISTORY</span></a></li>
+
+                       <li><a href="/advance.html"><span data-hover="ADVANCED QUERY"> ADVANCED QUERY</span></a></li>
+                       <!--<li><a href="/conflict"><span data-hover="CONFLICT ANALYSIS">CONFLICT ANALYSIS</span></a></li>-->
+                     </ul>
+
+                   </div>
+                </div><!-- /.navbar-collapse -->
+              </div><!-- /.container-fluid -->
+            </nav>
+          </div>
+        </div>
+
+      </header>
+      <br/>
+      <section class="mgL-15">
+          <div class="container-self">
+            <div class="row">
+              <div class="col-lg-3 col-md-3">
+                <div class="row">
+                  <div class="card-list">
+                    <div class="col-xs-6">
+                      <p class="announcement-text">Blocks</p>
+                        <p class="announcement-heading num-color1" id="block-number"></p>
+                    </div>
+                    <div class="col-xs-6 text-right">
+                      <i class="fa fa-cube fa-2x"></i>
+                    </div>
+                  </div>
+
+                </div>
+            
+                <div class="row">
+                  <div class="card-list">
+                    <div class="col-xs-6">
+                      <p class="announcement-text">Nodes </p>
+                        <p class="announcement-heading num-color2" id="node-number"></p>
+                    </div>
+                    <div class="col-xs-6 text-right">
+                      <i class="fa fa-code-fork fa-2x" aria-hidden="true"></i>
+                    </div>
+                  </div>
+
+                </div>  
+          
+                
+              </div>
+              <div class="col-lg-3 col-md-3">
+                <div class="row">
+                  <div class="card-list">
+                    <div class="col-xs-6">
+
+                      <p class="announcement-text">Transactions</p>
+                        <p class="announcement-heading num-color3" id="transaction-number"></p>
+                    </div>
+                    <div class="col-xs-6 text-right">
+                      <i class="fa fa-navicon fa-2x"></i>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="row">
+                  <div class="card-list">
+                    <div class="col-xs-6">
+                      <p class="announcement-text">Chaincodes </p>
+                        <p class="announcement-heading num-color4" id="contract-number"></p>
+                    </div>
+                    <div class="col-xs-6 text-right">
+                      <i class="fa fa-newspaper-o fa-2x"></i>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <div class="panel panel-self">
+                  <div class="panel-heading">
+                    <ul class="list-inline line-ul" id="line-chart-ul">
+                      <li class="active">
+                        Tx/Day
+                      </li>
+                      <li>
+                        Tx/Week
+                      </li>
+                      <li>
+                        Tx/Month
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="panel-body pd-0">
+                    <div class="chart-content2" id="dashboard-line-chart"></div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="panel panel-self">
+                  <div class="panel-heading">
+                    <h3 class="panel-title">Network</h3>
+                  </div>
+                  <div class="panel-body pd-0">
+                    <div class="table-responsive pd-0 network-height">
+                      <table class="table table-striped" id="network-table">
+                        <thead>
+                          <tr>
+                            <th>Name</th>
+                            <th>Url</th>
+                            <th>Msp Id</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          
+                        </tbody>
+                        
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="panel panel-self">
+                  <div class="panel-heading">
+                    <h3 class="panel-title">Transactions By Organization</h3>
+                  </div>
+                  <div class="panel-body pd-0">
+                    <div class="chart-content" id="dashboard-pie-chart"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+       
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="panel panel-self">
+                  <div class="panel-heading">
+                    <h3 class="panel-title col">Blocks</h3>
+                    <a href="blocks.html" class="col-auto">more>></a>
+                    
+                  </div>
+                  <div class="panel-body pd-0 block-table-contain" id="block-list-parent">
+                    <ul class="list-unstyled block-content list-pt list-pb list-plr" id="block-list">
+                      
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="panel panel-self">
+                  <div class="panel-heading">
+                    <h3 class="panel-title col">Transactions</h3>
+                    <a href="transaction.html" class="col-auto">more>></a>
+                  
+                  </div>
+                  <div class="panel-body pd-0 block-table-contain" id="transaction-list-parent">
+                    <ul class="list-unstyled block-content list-pt list-pb list-plr" id="transaction-list">
+                     
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </section>
+      <div class="bg-color1">
+
+      </div>
+      <div class="bg-color2">
+
+      </div>
+      <br />
+      <br />
+      <br />
+      <footer class="footer-style text-center">Copyright 2019—2022 FUJITSU All Rights Reserved</footer>
+    </section>
+  </body>
+</html>
+<script src="/static/javascripts/jquery-3.1.1.min.js"></script>
+<script src="/static/javascripts/echarts.min.js"></script>
+<script src="/static/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="/static/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="/static/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+<script src="/static/javascripts/config.js"></script>
+<script src="/static/javascripts/public.js"></script>
+<script src="/static/javascripts/dayjs.min.js"></script>
+<script src="/static/javascripts/dashboard.js"></script>

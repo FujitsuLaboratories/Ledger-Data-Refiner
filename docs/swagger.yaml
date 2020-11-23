@@ -1,0 +1,876 @@
+basePath: /api
+definitions:
+  api.BlockSuccessResponse:
+    properties:
+      code:
+        type: string
+      data:
+        $ref: '#/definitions/model.Block'
+        type: object
+      msg:
+        type: string
+    type: object
+  api.BlocksSuccessResponse:
+    properties:
+      code:
+        type: string
+      data:
+        items:
+          $ref: '#/definitions/model.Block'
+        type: array
+      msg:
+        type: string
+    type: object
+  api.ChaincodeNamesSuccessResponse:
+    properties:
+      code:
+        type: string
+      data:
+        items:
+          type: string
+        type: array
+      msg:
+        type: string
+    type: object
+  api.ChannelSuccessResponse:
+    properties:
+      code:
+        type: string
+      data:
+        $ref: '#/definitions/model.Channel'
+        type: object
+      msg:
+        type: string
+    type: object
+  api.ChannelsSuccessResponse:
+    properties:
+      code:
+        type: string
+      data:
+        items:
+          $ref: '#/definitions/model.Channel'
+        type: array
+      msg:
+        type: string
+    type: object
+  api.FailedResponse:
+    properties:
+      code:
+        type: string
+      msg:
+        type: string
+    type: object
+  api.HistoriesSuccessResponse:
+    properties:
+      code:
+        type: string
+      data:
+        items:
+          $ref: '#/definitions/model.HistoryWithTransaction'
+        type: array
+      msg:
+        type: string
+    type: object
+  api.MspSuccessResponse:
+    properties:
+      code:
+        type: string
+      data:
+        items:
+          type: string
+        type: array
+      msg:
+        type: string
+    type: object
+  api.SchemasSuccessResponse:
+    properties:
+      code:
+        type: string
+      data:
+        items:
+          $ref: '#/definitions/model.Schema'
+        type: array
+      msg:
+        type: string
+    type: object
+  api.TxSuccessResponse:
+    properties:
+      code:
+        type: string
+      data:
+        $ref: '#/definitions/model.Transaction'
+        type: object
+      msg:
+        type: string
+    type: object
+  api.TxsSuccessResponse:
+    properties:
+      code:
+        type: string
+      data:
+        items:
+          $ref: '#/definitions/model.Transaction'
+        type: array
+      msg:
+        type: string
+    type: object
+  api.TxsWeekSuccessResponse:
+    properties:
+      code:
+        type: string
+      data:
+        items:
+          type: integer
+        type: array
+      msg:
+        type: string
+    type: object
+  model.Block:
+    properties:
+      block_hash:
+        type: string
+      block_num:
+        type: integer
+      channel_id:
+        type: integer
+      created_at:
+        type: string
+      data_hash:
+        type: string
+      id:
+        type: integer
+      invalid_tx_count:
+        type: integer
+      previous_hash:
+        type: string
+      tx_count:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  model.Channel:
+    properties:
+      block_count:
+        type: integer
+      channel_name:
+        type: string
+      channel_version:
+        type: integer
+      client_name:
+        type: string
+      created_at:
+        type: string
+      genesis_block_hash:
+        type: string
+      id:
+        type: integer
+      network_name:
+        type: string
+      tx_count:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  model.HistoryWithTransaction:
+    properties:
+      block_num:
+        type: integer
+      chaincode_function:
+        type: string
+      chaincode_function_parameters:
+        type: string
+      chaincode_name:
+        type: string
+      channel_id:
+        type: integer
+      content:
+        type: string
+      create_msp_id:
+        type: string
+      created_at:
+        type: string
+      endorser_msp_id:
+        type: string
+      endorser_signature:
+        type: string
+      id:
+        type: integer
+      is_delete:
+        type: boolean
+      key:
+        type: string
+      read_key_list:
+        type: string
+      read_set:
+        type: string
+      tx_filter:
+        type: integer
+      tx_hash:
+        type: string
+      tx_id:
+        type: integer
+      tx_num:
+        type: integer
+      tx_response:
+        type: integer
+      tx_type:
+        type: string
+      updated_at:
+        type: string
+      write_key_list:
+        type: string
+      write_set:
+        type: string
+    type: object
+  model.Schema:
+    properties:
+      chaincode_name:
+        type: string
+      channel_id:
+        type: integer
+      created_at:
+        type: string
+      id:
+        type: integer
+      schema_array:
+        type: string
+      schema_json:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  model.Transaction:
+    properties:
+      block_num:
+        type: integer
+      chaincode_function:
+        type: string
+      chaincode_function_parameters:
+        type: string
+      chaincode_name:
+        type: string
+      channel_id:
+        type: integer
+      create_msp_id:
+        type: string
+      created_at:
+        type: string
+      endorser_msp_id:
+        type: string
+      endorser_signature:
+        type: string
+      id:
+        type: integer
+      read_key_list:
+        type: string
+      read_set:
+        type: string
+      tx_filter:
+        type: integer
+      tx_hash:
+        type: string
+      tx_num:
+        type: integer
+      tx_response:
+        type: integer
+      tx_type:
+        type: string
+      updated_at:
+        type: string
+      write_key_list:
+        type: string
+      write_set:
+        type: string
+    type: object
+host: 127.0.0.1:30052
+info:
+  contact:
+    name: API Support
+    url: http://www.swagger.io/support
+  license:
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: Ledgerdata refiner api doc
+  version: "1.0"
+paths:
+  /block/getblockbyblocknum/{channel_id}/{block_num}:
+    get:
+      consumes:
+      - application/json
+      description: get block by block number
+      parameters:
+      - description: channel id
+        in: path
+        name: channel_id
+        required: true
+        type: integer
+      - description: block number
+        in: path
+        name: block_num
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: code":200, "msg:"OK", "data":{block}}
+          schema:
+            $ref: '#/definitions/api.BlockSuccessResponse'
+        "500":
+          description: code":2002, "msg:"failed to get block"}
+          schema:
+            $ref: '#/definitions/api.FailedResponse'
+      tags:
+      - Block
+  /block/getblockbydatahash/{channel_id}/{data_hash}:
+    get:
+      consumes:
+      - application/json
+      description: get block by data hash
+      parameters:
+      - description: channel id
+        in: path
+        name: channel_id
+        required: true
+        type: integer
+      - description: data hash
+        in: path
+        name: data_hash
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: code":200, "msg:"OK", "data":{block}}
+          schema:
+            $ref: '#/definitions/api.BlockSuccessResponse'
+        "500":
+          description: code":2001, "msg:"failed to get block"}
+          schema:
+            $ref: '#/definitions/api.FailedResponse'
+      tags:
+      - Block
+  /block/getblocksbytimerange:
+    post:
+      consumes:
+      - application/json
+      description: get blocks by time range
+      parameters:
+      - description: channel id
+        in: body
+        name: channel_id
+        required: true
+        schema:
+          type: integer
+      - description: sort by
+        in: body
+        name: sort_by
+        schema:
+          type: string
+      - description: start time
+        in: body
+        name: start_time
+        schema:
+          type: string
+      - description: end time
+        in: body
+        name: end_time
+        schema:
+          type: string
+      - description: page number
+        in: body
+        name: page_num
+        schema:
+          type: integer
+      - description: page count
+        in: body
+        name: page_count
+        schema:
+          type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: code":200, "msg:"OK", "data":{block}}
+          schema:
+            $ref: '#/definitions/api.BlocksSuccessResponse'
+        "500":
+          description: code":2001, "msg:"failed to get block"}
+          schema:
+            $ref: '#/definitions/api.FailedResponse'
+      tags:
+      - Block
+  /channel/getchannelbyid/{channel_id}:
+    get:
+      consumes:
+      - application/json
+      description: get channel by channel ID
+      parameters:
+      - description: channel id
+        in: path
+        name: channel_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: code":200, "msg:"OK", "data":{channel}}
+          schema:
+            $ref: '#/definitions/api.ChannelSuccessResponse'
+        "500":
+          description: code":1001, "msg:"failed to get channel"}
+          schema:
+            $ref: '#/definitions/api.FailedResponse'
+      tags:
+      - Channel
+  /channel/getchannels:
+    get:
+      consumes:
+      - application/json
+      description: get channel list
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: code":200, "msg:"OK", "data":[channel1,channel2]}
+          schema:
+            $ref: '#/definitions/api.ChannelsSuccessResponse'
+        "500":
+          description: code":1002, "msg:"failed to get channel list"}
+          schema:
+            $ref: '#/definitions/api.FailedResponse'
+      tags:
+      - Channel
+  /history/gethistorybykey:
+    post:
+      consumes:
+      - application/json
+      description: get documents history by doc key
+      parameters:
+      - description: channel id
+        in: body
+        name: channel_id
+        required: true
+        schema:
+          type: integer
+      - description: sort by
+        in: body
+        name: sort_by
+        schema:
+          type: string
+      - description: document key
+        in: body
+        name: doc_key
+        required: true
+        schema:
+          type: string
+      - description: create msp
+        in: body
+        name: create_msp
+        schema:
+          type: string
+      - description: chaincode name
+        in: body
+        name: chaincode_name
+        schema:
+          type: string
+      - description: page number
+        in: body
+        name: page_num
+        schema:
+          type: integer
+      - description: page count
+        in: body
+        name: page_count
+        schema:
+          type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: code":200, "msg:"OK", "data":[dh1,dh2]}
+          schema:
+            $ref: '#/definitions/api.HistoriesSuccessResponse'
+        "500":
+          description: code":1002, "msg:"failed to get document history"}
+          schema:
+            $ref: '#/definitions/api.FailedResponse'
+      tags:
+      - Document history
+  /history/gethistorybytimerange:
+    post:
+      consumes:
+      - application/json
+      description: get documents history by time range
+      parameters:
+      - description: channel id
+        in: body
+        name: channel_id
+        required: true
+        schema:
+          type: integer
+      - description: sort by
+        in: body
+        name: sort_by
+        schema:
+          type: string
+      - description: start time
+        in: body
+        name: start_time
+        schema:
+          type: string
+      - description: end time
+        in: body
+        name: end_time
+        schema:
+          type: string
+      - description: page number
+        in: body
+        name: page_num
+        schema:
+          type: integer
+      - description: page count
+        in: body
+        name: page_count
+        schema:
+          type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: code":200, "msg:"OK", "data":[dh1,dh2]}
+          schema:
+            $ref: '#/definitions/api.HistoriesSuccessResponse'
+        "500":
+          description: code":1002, "msg:"failed to get document history"}
+          schema:
+            $ref: '#/definitions/api.FailedResponse'
+      tags:
+      - Document history
+  /schema/getchaincodename/{channel_id}:
+    get:
+      consumes:
+      - application/json
+      description: get chaincode by channelId
+      parameters:
+      - description: channel id
+        in: path
+        name: channel_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: code":200, "msg:"OK", "data":{"name1","name2"}}
+          schema:
+            $ref: '#/definitions/api.ChaincodeNamesSuccessResponse'
+        "500":
+          description: code":1001, "msg:"failed to get chaincodes"}
+          schema:
+            $ref: '#/definitions/api.FailedResponse'
+      tags:
+      - Schema
+  /schema/getschemas/{channel_id}/{chaincode_name}:
+    get:
+      consumes:
+      - application/json
+      description: get schemas by channelId and chaincode
+      parameters:
+      - description: channel id
+        in: path
+        name: channel_id
+        required: true
+        type: integer
+      - description: chaincode name
+        in: path
+        name: chaincode_name
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: code":200, "msg:"OK", "data":{schema1, schema2}}
+          schema:
+            $ref: '#/definitions/api.SchemasSuccessResponse'
+        "500":
+          description: code":1001, "msg:"failed to get channel"}
+          schema:
+            $ref: '#/definitions/api.FailedResponse'
+      tags:
+      - Schema
+  /tx/getcreatemspfromtxs/{channel_id}:
+    get:
+      consumes:
+      - application/json
+      description: get create MSP list from txs
+      parameters:
+      - description: channel id
+        in: path
+        name: channel_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: code":200, "msg:"OK", "data":[msp1,msp2,msp3]}
+          schema:
+            $ref: '#/definitions/api.MspSuccessResponse'
+        "500":
+          description: code":3001, "msg:"failed to get create msp list"}
+          schema:
+            $ref: '#/definitions/api.FailedResponse'
+      tags:
+      - Transaction
+  /tx/gettxbyblocknum:
+    post:
+      consumes:
+      - application/json
+      description: get txs by block number
+      parameters:
+      - description: channel id
+        in: path
+        name: channel_id
+        required: true
+        type: integer
+      - description: page num
+        in: path
+        name: page_num
+        type: integer
+      - description: page count
+        in: path
+        name: page_count
+        type: integer
+      - description: sort by(DESC ASC)
+        in: path
+        name: sort_by
+        type: string
+      - description: block number
+        in: path
+        name: block_num
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: code":200, "msg:"OK", "data":[tx1,tx2,tx3]}
+          schema:
+            $ref: '#/definitions/api.TxsSuccessResponse'
+        "500":
+          description: code":3001, "msg:"failed to get txs"}
+          schema:
+            $ref: '#/definitions/api.FailedResponse'
+      tags:
+      - Transaction
+  /tx/gettxbytxhash/{channel_id}/{tx_hash}:
+    get:
+      consumes:
+      - application/json
+      description: get tx by tx hash
+      parameters:
+      - description: channel id
+        in: path
+        name: channel_id
+        required: true
+        type: integer
+      - description: tx hash
+        in: path
+        name: tx_hash
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: code":200, "msg:"OK", "data":{tx}}
+          schema:
+            $ref: '#/definitions/api.TxSuccessResponse'
+        "500":
+          description: code":3002, "msg:"failed to get tx"}
+          schema:
+            $ref: '#/definitions/api.FailedResponse'
+      tags:
+      - Transaction
+  /tx/gettxcountbyday:
+    post:
+      consumes:
+      - application/json
+      description: get count of transactions of day
+      parameters:
+      - description: channel id
+        in: body
+        name: channel_id
+        required: true
+        schema:
+          type: integer
+      - description: start time
+        in: body
+        name: start_time
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: code":200, "msg:"OK", "data":{tx1, tx2}}
+          schema:
+            $ref: '#/definitions/api.TxsWeekSuccessResponse'
+        "500":
+          description: code":3002, "msg:"failed to get tx"}
+          schema:
+            $ref: '#/definitions/api.FailedResponse'
+      tags:
+      - Transaction
+  /tx/gettxcountbymonth:
+    post:
+      consumes:
+      - application/json
+      description: get count of transactions of month
+      parameters:
+      - description: channel id
+        in: body
+        name: channel_id
+        required: true
+        schema:
+          type: integer
+      - description: start time
+        in: body
+        name: start_time
+        required: true
+        schema:
+          type: string
+      - description: end time
+        in: body
+        name: end_time
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: code":200, "msg:"OK", "data":{tx1, tx2}}
+          schema:
+            $ref: '#/definitions/api.TxsWeekSuccessResponse'
+        "500":
+          description: code":3002, "msg:"failed to get tx"}
+          schema:
+            $ref: '#/definitions/api.FailedResponse'
+      tags:
+      - Transaction
+  /tx/gettxcountbyorg:
+    get:
+      consumes:
+      - application/json
+      description: get count of txs of orgs
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: code":200, "msg:"OK", "data":{tx1, tx2}}
+          schema:
+            $ref: '#/definitions/api.TxsSuccessResponse'
+        "500":
+          description: code":3002, "msg:"failed to get tx"}
+          schema:
+            $ref: '#/definitions/api.FailedResponse'
+      tags:
+      - Transaction
+  /tx/gettxcountbyweek:
+    post:
+      consumes:
+      - application/json
+      description: get count of transactions of week
+      parameters:
+      - description: channel id
+        in: body
+        name: channel_id
+        required: true
+        schema:
+          type: integer
+      - description: start time
+        in: body
+        name: start_time
+        required: true
+        schema:
+          type: string
+      - description: end time
+        in: body
+        name: end_time
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: code":200, "msg:"OK", "data":{tx1, tx2}}
+          schema:
+            $ref: '#/definitions/api.TxsWeekSuccessResponse'
+        "500":
+          description: code":3002, "msg:"failed to get tx"}
+          schema:
+            $ref: '#/definitions/api.FailedResponse'
+      tags:
+      - Transaction
+  /tx/gettxsbytimerange:
+    post:
+      consumes:
+      - application/json
+      description: get transactions by time range
+      parameters:
+      - description: channel id
+        in: body
+        name: channel_id
+        required: true
+        schema:
+          type: integer
+      - description: sort by
+        in: body
+        name: sort_by
+        schema:
+          type: string
+      - description: start time
+        in: body
+        name: start_time
+        schema:
+          type: string
+      - description: end time
+        in: body
+        name: end_time
+        schema:
+          type: string
+      - description: page number
+        in: body
+        name: page_num
+        schema:
+          type: integer
+      - description: page count
+        in: body
+        name: page_count
+        schema:
+          type: integer
+      - description: create msp
+        in: body
+        name: create_msp
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: code":200, "msg:"OK", "data":{tx1, tx2}}
+          schema:
+            $ref: '#/definitions/api.TxsSuccessResponse'
+        "500":
+          description: code":3002, "msg:"failed to get tx"}
+          schema:
+            $ref: '#/definitions/api.FailedResponse'
+      tags:
+      - Transaction
+swagger: "2.0"

@@ -1,0 +1,7 @@
+{
+  "postgreSQL": {
+    "database": "ledgerdata_refiner",
+    "username": "refiner",
+    "password": "123456"
+  }
+}

@@ -1,0 +1,1350 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Ledgerdata refiner api doc",
+        "contact": {
+            "name": "API Support",
+            "url": "http://www.swagger.io/support"
+        },
+        "license": {
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0"
+    },
+    "host": "127.0.0.1:30052",
+    "basePath": "/api",
+    "paths": {
+        "/block/getblockbyblocknum/{channel_id}/{block_num}": {
+            "get": {
+                "description": "get block by block number",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Block"
+                ],
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "channel id",
+                        "name": "channel_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "block number",
+                        "name": "block_num",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "code\":200, \"msg:\"OK\", \"data\":{block}}",
+                        "schema": {
+                            "$ref": "#/definitions/api.BlockSuccessResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "code\":2002, \"msg:\"failed to get block\"}",
+                        "schema": {
+                            "$ref": "#/definitions/api.FailedResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/block/getblockbydatahash/{channel_id}/{data_hash}": {
+            "get": {
+                "description": "get block by data hash",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Block"
+                ],
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "channel id",
+                        "name": "channel_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "data hash",
+                        "name": "data_hash",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "code\":200, \"msg:\"OK\", \"data\":{block}}",
+                        "schema": {
+                            "$ref": "#/definitions/api.BlockSuccessResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "code\":2001, \"msg:\"failed to get block\"}",
+                        "schema": {
+                            "$ref": "#/definitions/api.FailedResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/block/getblocksbytimerange": {
+            "post": {
+                "description": "get blocks by time range",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Block"
+                ],
+                "parameters": [
+                    {
+                        "description": "channel id",
+                        "name": "channel_id",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": "sort by",
+                        "name": "sort_by",
+                        "in": "body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "start time",
+                        "name": "start_time",
+                        "in": "body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "end time",
+                        "name": "end_time",
+                        "in": "body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "page number",
+                        "name": "page_num",
+                        "in": "body",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": "page count",
+                        "name": "page_count",
+                        "in": "body",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "code\":200, \"msg:\"OK\", \"data\":{block}}",
+                        "schema": {
+                            "$ref": "#/definitions/api.BlocksSuccessResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "code\":2001, \"msg:\"failed to get block\"}",
+                        "schema": {
+                            "$ref": "#/definitions/api.FailedResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/channel/getchannelbyid/{channel_id}": {
+            "get": {
+                "description": "get channel by channel ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Channel"
+                ],
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "channel id",
+                        "name": "channel_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "code\":200, \"msg:\"OK\", \"data\":{channel}}",
+                        "schema": {
+                            "$ref": "#/definitions/api.ChannelSuccessResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "code\":1001, \"msg:\"failed to get channel\"}",
+                        "schema": {
+                            "$ref": "#/definitions/api.FailedResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/channel/getchannels": {
+            "get": {
+                "description": "get channel list",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Channel"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "code\":200, \"msg:\"OK\", \"data\":[channel1,channel2]}",
+                        "schema": {
+                            "$ref": "#/definitions/api.ChannelsSuccessResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "code\":1002, \"msg:\"failed to get channel list\"}",
+                        "schema": {
+                            "$ref": "#/definitions/api.FailedResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/history/gethistorybykey": {
+            "post": {
+                "description": "get documents history by doc key",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Document history"
+                ],
+                "parameters": [
+                    {
+                        "description": "channel id",
+                        "name": "channel_id",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": "sort by",
+                        "name": "sort_by",
+                        "in": "body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "document key",
+                        "name": "doc_key",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "create msp",
+                        "name": "create_msp",
+                        "in": "body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "chaincode name",
+                        "name": "chaincode_name",
+                        "in": "body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "page number",
+                        "name": "page_num",
+                        "in": "body",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": "page count",
+                        "name": "page_count",
+                        "in": "body",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "code\":200, \"msg:\"OK\", \"data\":[dh1,dh2]}",
+                        "schema": {
+                            "$ref": "#/definitions/api.HistoriesSuccessResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "code\":1002, \"msg:\"failed to get document history\"}",
+                        "schema": {
+                            "$ref": "#/definitions/api.FailedResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/history/gethistorybytimerange": {
+            "post": {
+                "description": "get documents history by time range",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Document history"
+                ],
+                "parameters": [
+                    {
+                        "description": "channel id",
+                        "name": "channel_id",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": "sort by",
+                        "name": "sort_by",
+                        "in": "body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "start time",
+                        "name": "start_time",
+                        "in": "body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "end time",
+                        "name": "end_time",
+                        "in": "body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "page number",
+                        "name": "page_num",
+                        "in": "body",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": "page count",
+                        "name": "page_count",
+                        "in": "body",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "code\":200, \"msg:\"OK\", \"data\":[dh1,dh2]}",
+                        "schema": {
+                            "$ref": "#/definitions/api.HistoriesSuccessResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "code\":1002, \"msg:\"failed to get document history\"}",
+                        "schema": {
+                            "$ref": "#/definitions/api.FailedResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/schema/getchaincodename/{channel_id}": {
+            "get": {
+                "description": "get chaincode by channelId",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Schema"
+                ],
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "channel id",
+                        "name": "channel_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "code\":200, \"msg:\"OK\", \"data\":{\"name1\",\"name2\"}}",
+                        "schema": {
+                            "$ref": "#/definitions/api.ChaincodeNamesSuccessResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "code\":1001, \"msg:\"failed to get chaincodes\"}",
+                        "schema": {
+                            "$ref": "#/definitions/api.FailedResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/schema/getschemas/{channel_id}/{chaincode_name}": {
+            "get": {
+                "description": "get schemas by channelId and chaincode",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Schema"
+                ],
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "channel id",
+                        "name": "channel_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "chaincode name",
+                        "name": "chaincode_name",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "code\":200, \"msg:\"OK\", \"data\":{schema1, schema2}}",
+                        "schema": {
+                            "$ref": "#/definitions/api.SchemasSuccessResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "code\":1001, \"msg:\"failed to get channel\"}",
+                        "schema": {
+                            "$ref": "#/definitions/api.FailedResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/tx/getcreatemspfromtxs/{channel_id}": {
+            "get": {
+                "description": "get create MSP list from txs",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Transaction"
+                ],
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "channel id",
+                        "name": "channel_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "code\":200, \"msg:\"OK\", \"data\":[msp1,msp2,msp3]}",
+                        "schema": {
+                            "$ref": "#/definitions/api.MspSuccessResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "code\":3001, \"msg:\"failed to get create msp list\"}",
+                        "schema": {
+                            "$ref": "#/definitions/api.FailedResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/tx/gettxbyblocknum": {
+            "post": {
+                "description": "get txs by block number",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Transaction"
+                ],
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "channel id",
+                        "name": "channel_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "page num",
+                        "name": "page_num",
+                        "in": "path"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "page count",
+                        "name": "page_count",
+                        "in": "path"
+                    },
+                    {
+                        "type": "string",
+                        "description": "sort by(DESC ASC)",
+                        "name": "sort_by",
+                        "in": "path"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "block number",
+                        "name": "block_num",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "code\":200, \"msg:\"OK\", \"data\":[tx1,tx2,tx3]}",
+                        "schema": {
+                            "$ref": "#/definitions/api.TxsSuccessResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "code\":3001, \"msg:\"failed to get txs\"}",
+                        "schema": {
+                            "$ref": "#/definitions/api.FailedResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/tx/gettxbytxhash/{channel_id}/{tx_hash}": {
+            "get": {
+                "description": "get tx by tx hash",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Transaction"
+                ],
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "channel id",
+                        "name": "channel_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "tx hash",
+                        "name": "tx_hash",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "code\":200, \"msg:\"OK\", \"data\":{tx}}",
+                        "schema": {
+                            "$ref": "#/definitions/api.TxSuccessResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "code\":3002, \"msg:\"failed to get tx\"}",
+                        "schema": {
+                            "$ref": "#/definitions/api.FailedResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/tx/gettxcountbyday": {
+            "post": {
+                "description": "get count of transactions of day",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Transaction"
+                ],
+                "parameters": [
+                    {
+                        "description": "channel id",
+                        "name": "channel_id",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": "start time",
+                        "name": "start_time",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "code\":200, \"msg:\"OK\", \"data\":{tx1, tx2}}",
+                        "schema": {
+                            "$ref": "#/definitions/api.TxsWeekSuccessResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "code\":3002, \"msg:\"failed to get tx\"}",
+                        "schema": {
+                            "$ref": "#/definitions/api.FailedResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/tx/gettxcountbymonth": {
+            "post": {
+                "description": "get count of transactions of month",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Transaction"
+                ],
+                "parameters": [
+                    {
+                        "description": "channel id",
+                        "name": "channel_id",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": "start time",
+                        "name": "start_time",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "end time",
+                        "name": "end_time",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "code\":200, \"msg:\"OK\", \"data\":{tx1, tx2}}",
+                        "schema": {
+                            "$ref": "#/definitions/api.TxsWeekSuccessResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "code\":3002, \"msg:\"failed to get tx\"}",
+                        "schema": {
+                            "$ref": "#/definitions/api.FailedResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/tx/gettxcountbyorg": {
+            "get": {
+                "description": "get count of txs of orgs",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Transaction"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "code\":200, \"msg:\"OK\", \"data\":{tx1, tx2}}",
+                        "schema": {
+                            "$ref": "#/definitions/api.TxsSuccessResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "code\":3002, \"msg:\"failed to get tx\"}",
+                        "schema": {
+                            "$ref": "#/definitions/api.FailedResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/tx/gettxcountbyweek": {
+            "post": {
+                "description": "get count of transactions of week",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Transaction"
+                ],
+                "parameters": [
+                    {
+                        "description": "channel id",
+                        "name": "channel_id",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": "start time",
+                        "name": "start_time",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "end time",
+                        "name": "end_time",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "code\":200, \"msg:\"OK\", \"data\":{tx1, tx2}}",
+                        "schema": {
+                            "$ref": "#/definitions/api.TxsWeekSuccessResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "code\":3002, \"msg:\"failed to get tx\"}",
+                        "schema": {
+                            "$ref": "#/definitions/api.FailedResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/tx/gettxsbytimerange": {
+            "post": {
+                "description": "get transactions by time range",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Transaction"
+                ],
+                "parameters": [
+                    {
+                        "description": "channel id",
+                        "name": "channel_id",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": "sort by",
+                        "name": "sort_by",
+                        "in": "body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "start time",
+                        "name": "start_time",
+                        "in": "body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "end time",
+                        "name": "end_time",
+                        "in": "body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "page number",
+                        "name": "page_num",
+                        "in": "body",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": "page count",
+                        "name": "page_count",
+                        "in": "body",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": "create msp",
+                        "name": "create_msp",
+                        "in": "body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "code\":200, \"msg:\"OK\", \"data\":{tx1, tx2}}",
+                        "schema": {
+                            "$ref": "#/definitions/api.TxsSuccessResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "code\":3002, \"msg:\"failed to get tx\"}",
+                        "schema": {
+                            "$ref": "#/definitions/api.FailedResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "api.BlockSuccessResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "data": {
+                    "type": "object",
+                    "$ref": "#/definitions/model.Block"
+                },
+                "msg": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.BlocksSuccessResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.Block"
+                    }
+                },
+                "msg": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.ChaincodeNamesSuccessResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "msg": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.ChannelSuccessResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "data": {
+                    "type": "object",
+                    "$ref": "#/definitions/model.Channel"
+                },
+                "msg": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.ChannelsSuccessResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.Channel"
+                    }
+                },
+                "msg": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.FailedResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "msg": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.HistoriesSuccessResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.HistoryWithTransaction"
+                    }
+                },
+                "msg": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.MspSuccessResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "msg": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.SchemasSuccessResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.Schema"
+                    }
+                },
+                "msg": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.TxSuccessResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "data": {
+                    "type": "object",
+                    "$ref": "#/definitions/model.Transaction"
+                },
+                "msg": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.TxsSuccessResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.Transaction"
+                    }
+                },
+                "msg": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.TxsWeekSuccessResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "msg": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.Block": {
+            "type": "object",
+            "properties": {
+                "block_hash": {
+                    "type": "string"
+                },
+                "block_num": {
+                    "type": "integer"
+                },
+                "channel_id": {
+                    "type": "integer"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "data_hash": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "invalid_tx_count": {
+                    "type": "integer"
+                },
+                "previous_hash": {
+                    "type": "string"
+                },
+                "tx_count": {
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.Channel": {
+            "type": "object",
+            "properties": {
+                "block_count": {
+                    "type": "integer"
+                },
+                "channel_name": {
+                    "type": "string"
+                },
+                "channel_version": {
+                    "type": "integer"
+                },
+                "client_name": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "genesis_block_hash": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "network_name": {
+                    "type": "string"
+                },
+                "tx_count": {
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.HistoryWithTransaction": {
+            "type": "object",
+            "properties": {
+                "block_num": {
+                    "type": "integer"
+                },
+                "chaincode_function": {
+                    "type": "string"
+                },
+                "chaincode_function_parameters": {
+                    "type": "string"
+                },
+                "chaincode_name": {
+                    "type": "string"
+                },
+                "channel_id": {
+                    "type": "integer"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "create_msp_id": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "endorser_msp_id": {
+                    "type": "string"
+                },
+                "endorser_signature": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "is_delete": {
+                    "type": "boolean"
+                },
+                "key": {
+                    "type": "string"
+                },
+                "read_key_list": {
+                    "type": "string"
+                },
+                "read_set": {
+                    "type": "string"
+                },
+                "tx_filter": {
+                    "type": "integer"
+                },
+                "tx_hash": {
+                    "type": "string"
+                },
+                "tx_id": {
+                    "type": "integer"
+                },
+                "tx_num": {
+                    "type": "integer"
+                },
+                "tx_response": {
+                    "type": "integer"
+                },
+                "tx_type": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "write_key_list": {
+                    "type": "string"
+                },
+                "write_set": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.Schema": {
+            "type": "object",
+            "properties": {
+                "chaincode_name": {
+                    "type": "string"
+                },
+                "channel_id": {
+                    "type": "integer"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "schema_array": {
+                    "type": "string"
+                },
+                "schema_json": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.Transaction": {
+            "type": "object",
+            "properties": {
+                "block_num": {
+                    "type": "integer"
+                },
+                "chaincode_function": {
+                    "type": "string"
+                },
+                "chaincode_function_parameters": {
+                    "type": "string"
+                },
+                "chaincode_name": {
+                    "type": "string"
+                },
+                "channel_id": {
+                    "type": "integer"
+                },
+                "create_msp_id": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "endorser_msp_id": {
+                    "type": "string"
+                },
+                "endorser_signature": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "read_key_list": {
+                    "type": "string"
+                },
+                "read_set": {
+                    "type": "string"
+                },
+                "tx_filter": {
+                    "type": "integer"
+                },
+                "tx_hash": {
+                    "type": "string"
+                },
+                "tx_num": {
+                    "type": "integer"
+                },
+                "tx_response": {
+                    "type": "integer"
+                },
+                "tx_type": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "write_key_list": {
+                    "type": "string"
+                },
+                "write_set": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

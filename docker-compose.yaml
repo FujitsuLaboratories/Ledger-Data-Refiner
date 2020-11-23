@@ -1,0 +1,39 @@
+# SPDX-License-Identifier: Apache-2.0
+version: '2.1'
+
+networks:
+  network.com:
+    external:
+      name: net_test
+
+services:
+  refinerdb.network.com:
+    image: fujitsu/refinerdb:latest
+    container_name: refinerdb
+    hostname: refinerdb.network.com
+    healthcheck:
+      test: "pg_isready -h localhost -p 5432 -q -U postgres"
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    volumes:
+      - /home/ubuntu/postgresql/data:/var/lib/postgresql/data
+    networks:
+      - network.com
+
+  refiner.network.com:
+    image: fujitsu/refiner:latest
+    container_name: refiner
+    hostname: refiner.network.com
+    volumes:
+      - ./config/config.ini:/opt/config/config.ini
+      - ./config/connection-config-docker.yaml:/opt/config/connection-config.yaml
+      - /opt/refiner/log:/root/refiner/log
+      - /home/ubuntu/workspace/go/src/github.com/hyperledger/fabric/scripts/fabric-samples/test-network/organizations:/opt/organizations
+    command: sh -c "/opt/ledgerdata-refiner"
+    ports:
+      - 30052:30052
+    depends_on:
+      - refinerdb.network.com
+    networks:
+      - network.com
