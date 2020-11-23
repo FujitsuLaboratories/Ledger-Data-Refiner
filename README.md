@@ -23,7 +23,7 @@ The main features of Ledgerdata Refiner are as follows:
 ## Install
 
 ~~~shell
-go get github.com/FujitsuLaboratories/ledgerdata-refiner
+go get github.com/FujitsuLaboratories/Ledger-Data-Refiner
 ~~~
 
 
