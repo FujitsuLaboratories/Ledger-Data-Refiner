@@ -9,6 +9,7 @@ import (
 	"github.com/FujitsuLaboratories/ledgerdata-refiner/utils"
 	rotatelogs "github.com/lestrrat-go/file-rotatelogs"
 	"github.com/sirupsen/logrus"
+	"os"
 	"time"
 )
 
@@ -16,24 +17,26 @@ var Logger *logrus.Logger
 
 func init() {
 	Logger = logrus.New()
-
 	// set log level
 	setLevel(Logger)
-
 	// set output format
 	setFormat(Logger)
-
-	// set log cutting
-	writer, err := rotatelogs.New(
-		utils.LogStore+"%Y%m%d%H%M",
-		rotatelogs.WithLinkName(utils.LogStore),
-		rotatelogs.WithMaxAge(time.Duration(utils.LogMaxAge)),
-		rotatelogs.WithRotationSize(utils.LogMaxSize),
-	)
-	if err != nil {
-		panic(err)
+	switch utils.LogOutput {
+	case "file":
+		// set log cutting
+		writer, err := rotatelogs.New(
+			utils.LogStore+"%Y%m%d%H%M",
+			rotatelogs.WithLinkName(utils.LogStore),
+			rotatelogs.WithMaxAge(time.Duration(utils.LogMaxAge)),
+			rotatelogs.WithRotationSize(utils.LogMaxSize),
+		)
+		if err != nil {
+			panic(err)
+		}
+		Logger.SetOutput(writer)
+	default:
+		Logger.SetOutput(os.Stdout)
 	}
-	Logger.SetOutput(writer)
 }
 
 func setLevel(logger *logrus.Logger) {

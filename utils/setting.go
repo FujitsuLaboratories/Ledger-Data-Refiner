@@ -17,6 +17,7 @@ var (
 	AppMode  string
 	HttpPort string
 	// log config
+	LogOutput  string
 	LogLevel   string
 	LogFormat  string
 	LogStore   string
@@ -62,6 +63,7 @@ func loadServer(file *ini.File) {
 }
 
 func loadLog(file *ini.File) {
+	LogOutput = file.Section("log").Key("log_output").MustString("stdout")
 	LogLevel = file.Section("log").Key("log_level").MustString("debug")
 	LogFormat = file.Section("log").Key("log_format").MustString("text")
 	LogStore = file.Section("log").Key("log_store").MustString("")
