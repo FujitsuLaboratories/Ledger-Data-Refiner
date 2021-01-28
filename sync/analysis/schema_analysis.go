@@ -71,8 +71,11 @@ func GetSchemaInArray(content string) (SchemaArray, error) {
 		return nil, errors.New("the object is not a JSON schema")
 	}
 	keys := &SchemaArray{}
-	var args map[string]interface{}
-	_ = json.Unmarshal([]byte(content), &args)
+	args := make(map[string]interface{})
+	err := json.Unmarshal([]byte(content), &args)
+	if err != nil {
+		return nil, err
+	}
 	iterGetSchemaInArray(args, keys, "")
 	sort.Sort(keys)
 	return *keys, nil
@@ -87,8 +90,11 @@ func GetSchemaInJson(content string) (string, error) {
 		return "", errors.New("the object is not a JSON schema")
 	}
 	keys := make(map[string]interface{})
-	var args map[string]interface{}
-	_ = json.Unmarshal([]byte(content), &args)
+	args := make(map[string]interface{})
+	err := json.Unmarshal([]byte(content), &args)
+	if err != nil {
+		return "", err
+	}
 	iterGetSchemaInJson(keys, args)
 	jsonBytes, err := json.Marshal(keys)
 	return string(jsonBytes), err
@@ -96,6 +102,9 @@ func GetSchemaInJson(content string) (string, error) {
 
 func iterGetSchemaInJson(keys map[string]interface{}, args map[string]interface{}) {
 	for k, v := range args {
+		if v == nil {
+			continue
+		}
 		if subKey, ok := v.(map[string]interface{}); ok {
 			keys[k] = make(map[string]interface{})
 			iterGetSchemaInJson((keys[k]).(map[string]interface{}), subKey)
