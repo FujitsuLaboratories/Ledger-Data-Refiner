@@ -18,6 +18,8 @@ services:
       retries: 5
     volumes:
       - /home/ubuntu/postgresql/data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
     networks:
       - network.com
 
@@ -29,7 +31,7 @@ services:
       - ./config/config.ini:/opt/config/config.ini
       - ./config/connection-config-docker.yaml:/opt/config/connection-config.yaml
       - /opt/refiner/log:/root/refiner/log
-      - /home/ubuntu/workspace/go/src/github.com/hyperledger/fabric/scripts/fabric-samples/test-network/organizations:/opt/organizations
+      - /YOUR PATH HERE/organizations:/opt/organizations
     command: sh -c "/opt/ledgerdata-refiner"
     ports:
       - 30052:30052
