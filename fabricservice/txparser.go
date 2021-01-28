@@ -8,6 +8,7 @@ package fabricservice
 import (
 	"encoding/hex"
 	"github.com/FujitsuLaboratories/ledgerdata-refiner/fabricservice/utils"
+	refinerutil "github.com/FujitsuLaboratories/ledgerdata-refiner/utils"
 	"github.com/golang/protobuf/proto"
 	"github.com/hyperledger/fabric-protos-go/common"
 	"github.com/hyperledger/fabric-protos-go/ledger/rwset"
@@ -37,7 +38,7 @@ type IKVWrite struct {
 
 func transformFbricKVRead(read *kvrwset.KVRead) *IKVRead {
 	iKVRead := new(IKVRead)
-	iKVRead.Key = read.Key
+	iKVRead.Key = refinerutil.RemoveUselessCharacters(read.Key)
 	if read.Version != nil {
 		iKVRead.Version = &Version{
 			BlockNum: read.Version.BlockNum,
@@ -54,7 +55,7 @@ func transformFabricKVWrite(write *kvrwset.KVWrite) *IKVWrite {
 		iKVWrite.Value = string(write.Value)
 	}
 
-	iKVWrite.Key = write.Key
+	iKVWrite.Key = refinerutil.RemoveUselessCharacters(write.Key)
 	iKVWrite.IsDelete = write.IsDelete
 	return iKVWrite
 }
