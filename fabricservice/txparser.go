@@ -38,7 +38,7 @@ type IKVWrite struct {
 
 func transformFbricKVRead(read *kvrwset.KVRead) *IKVRead {
 	iKVRead := new(IKVRead)
-	iKVRead.Key = refinerutil.RemoveUselessCharacters(read.Key)
+	iKVRead.Key = refinerutil.RemoveInvalidCharacters(read.Key)
 	if read.Version != nil {
 		iKVRead.Version = &Version{
 			BlockNum: read.Version.BlockNum,
@@ -52,10 +52,10 @@ func transformFbricKVRead(read *kvrwset.KVRead) *IKVRead {
 func transformFabricKVWrite(write *kvrwset.KVWrite) *IKVWrite {
 	iKVWrite := new(IKVWrite)
 	if write.Value != nil && len(write.Value) > 0 {
-		iKVWrite.Value = string(write.Value)
+		iKVWrite.Value = refinerutil.RemoveInvalidCharacters(string(write.Value))
 	}
 
-	iKVWrite.Key = refinerutil.RemoveUselessCharacters(write.Key)
+	iKVWrite.Key = refinerutil.RemoveInvalidCharacters(write.Key)
 	iKVWrite.IsDelete = write.IsDelete
 	return iKVWrite
 }
@@ -98,7 +98,8 @@ func GetChaincodeName(tx []byte) (string, error) {
 	if err != nil {
 		return "", errors.Wrap(err, "error getting chaincode action")
 	}
-	return chaincodeAction.ChaincodeId.Name, nil
+	chaincodeName := refinerutil.RemoveInvalidCharacters(chaincodeAction.ChaincodeId.Name)
+	return chaincodeName, nil
 }
 
 func GetResponseStatus(tx []byte) (int32, error) {
@@ -131,7 +132,8 @@ func GetCreatorMSPId(tx []byte) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return mspContent.Mspid, nil
+	mspId := refinerutil.RemoveInvalidCharacters(mspContent.Mspid)
+	return mspId, nil
 }
 
 func GetEndorserMSPId(tx []byte) ([]string, error) {
@@ -143,7 +145,7 @@ func GetEndorserMSPId(tx []byte) ([]string, error) {
 	for _, endorsement := range chaincodeActionPayload.Action.Endorsements {
 		mspContent := &msp.SerializedIdentity{}
 		err = proto.Unmarshal(endorsement.Endorser, mspContent)
-		endorserMSPIds = append(endorserMSPIds, mspContent.Mspid)
+		endorserMSPIds = append(endorserMSPIds, refinerutil.RemoveInvalidCharacters(mspContent.Mspid))
 	}
 	return endorserMSPIds, nil
 }
@@ -281,11 +283,10 @@ func GetEndorserSignature(tx []byte) ([]map[string]string, error) {
 		endorserSignature["signature"] = hex.EncodeToString(endorsement.Signature)
 		mspContent := &msp.SerializedIdentity{}
 		err = proto.Unmarshal(endorsement.Endorser, mspContent)
-		endorserSignature["msp_id"] = mspContent.Mspid
-		endorserSignature["cerficate"] = string(mspContent.IdBytes)
+		endorserSignature["msp_id"] = refinerutil.RemoveInvalidCharacters(mspContent.Mspid)
+		endorserSignature["cerficate"] = refinerutil.RemoveInvalidCharacters(string(mspContent.IdBytes))
 		endorserSignatures = append(endorserSignatures, endorserSignature)
 	}
-
 	return endorserSignatures, nil
 }
 
@@ -297,22 +298,23 @@ func GetChaincodeFunction(tx []byte) (string, error) {
 	if invokeSpec.ChaincodeSpec == nil {
 		return "", nil
 	}
-	return string(invokeSpec.ChaincodeSpec.Input.Args[0]), nil
+	chaincodeFunction := refinerutil.RemoveInvalidCharacters(string(invokeSpec.ChaincodeSpec.Input.Args[0]))
+	return chaincodeFunction, nil
 }
 
 func GetFunctionParameters(tx []byte) ([]string, error) {
 	invokeSpec, err := getTxAllArgs(tx)
-	if invokeSpec.ChaincodeSpec == nil {
-		return []string{}, nil
-	}
 	if err != nil {
 		return nil, err
 	}
+	if invokeSpec.ChaincodeSpec == nil {
+		return nil, nil
+	}
 	var args []string
 	for i := 1; i < len(invokeSpec.ChaincodeSpec.Input.Args); i++ {
-		args = append(args, string(invokeSpec.ChaincodeSpec.Input.Args[i]))
+		args = append(args, refinerutil.RemoveInvalidCharacters(string(invokeSpec.ChaincodeSpec.Input.Args[i])))
 	}
-	return args, err
+	return args, nil
 }
 
 func getTxAllArgs(tx []byte) (*peer.ChaincodeInvocationSpec, error) {

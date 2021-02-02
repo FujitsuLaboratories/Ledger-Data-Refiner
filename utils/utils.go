@@ -41,8 +41,11 @@ func IsContain(str string, strs []string) bool {
 	return false
 }
 
-// RemoveUselessCharacters removes some characters, like `\u0001`,`\u001A`,...
-func RemoveUselessCharacters(str string) string {
+// RemoveInvalidCharacters removes some characters, like `\u0001`,`\u001A`,...
+func RemoveInvalidCharacters(str string) string {
+	if str == "" {
+		return ""
+	}
 	srcRunes := []rune(str)
 	dstRunes := make([]rune, 0, len(srcRunes))
 	// remove useless characters
