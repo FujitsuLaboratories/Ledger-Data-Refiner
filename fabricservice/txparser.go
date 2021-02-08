@@ -202,10 +202,10 @@ func GetReadKeyList(tx []byte) ([]string, error) {
 			}
 			for _, read := range kvrwset.Reads {
 				if read.Version == nil {
-					readSet = append(readSet, read.Key+"!#null")
+					readSet = append(readSet, refinerutil.RemoveInvalidCharacters(read.Key+"!#null"))
 				} else {
-					readSet = append(readSet, read.Key+"!#"+strconv.Itoa(int(read.Version.BlockNum))+"_"+
-						strconv.Itoa(int(read.Version.TxNum)))
+					readSet = append(readSet, refinerutil.RemoveInvalidCharacters(read.Key+"!#"+strconv.Itoa(int(read.Version.BlockNum))+"_"+
+						strconv.Itoa(int(read.Version.TxNum))))
 				}
 			}
 		}
@@ -265,7 +265,7 @@ func GetWriteKeyList(tx []byte) ([]string, error) {
 				return nil, err
 			}
 			for _, write := range kvrwset.Writes {
-				writeSet = append(writeSet, write.Key)
+				writeSet = append(writeSet, refinerutil.RemoveInvalidCharacters(write.Key))
 			}
 		}
 	}
