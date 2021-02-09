@@ -28,3 +28,21 @@ func TestToJson(t *testing.T) {
 	json := ToJson(a)
 	t.Log(json)
 }
+
+func TestIsJson(t *testing.T) {
+	jsons := []string{
+		`{"a":"1"}`,
+		`{aa":1}}`,
+		"1",
+		`{"aa":[1,2]]}`,
+	}
+
+	for i, json := range jsons {
+		b := IsJson(json)
+		if i == 0 {
+			require.True(t, b)
+			continue
+		}
+		require.False(t, b)
+	}
+}

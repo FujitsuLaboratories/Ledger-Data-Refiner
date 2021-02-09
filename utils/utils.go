@@ -29,7 +29,8 @@ func ToJson(arg interface{}) string {
 
 // IsJson checks if the content is json
 func IsJson(content string) bool {
-	return json.Valid([]byte(content))
+	var js map[string]interface{}
+	return json.Unmarshal([]byte(content), &js) == nil
 }
 
 func IsContain(str string, strs []string) bool {
