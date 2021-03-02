@@ -99,6 +99,7 @@ func (sync *SyncService) determineSchema(doc model.Document) error {
 			return err
 		}
 		// the content of document is not json, return
+		session.Commit()
 		return nil
 	}
 
