@@ -6,9 +6,13 @@ SPDX-License-Identifier: Apache-2.0
 package utils
 
 import (
-	"gopkg.in/ini.v1"
+	"fmt"
 	"os"
 	"path/filepath"
+	"strconv"
+	"strings"
+
+	"github.com/spf13/viper"
 )
 
 // TODO use a struct ??
@@ -40,51 +44,80 @@ var (
 )
 
 func init() {
-	file, err := ini.Load("config/config.ini")
-	if err != nil {
-		file, err = ini.Load("../config/config.ini")
-		if err != nil {
-			file, err = ini.Load("../../config/config.ini")
-			if err != nil {
-				panic("failed to load ini config. err: " + err.Error())
-			}
-		}
+	viper.SetConfigName("config")
+	viper.SetConfigType("ini")
+	viper.AddConfigPath("./config")
+	viper.AddConfigPath("../config")
+	viper.AddConfigPath("../../config")
+	viper.SetEnvPrefix("refiner")
+	viper.AutomaticEnv()
+
+	replacer := strings.NewReplacer(".", "_")
+	viper.SetEnvKeyReplacer(replacer)
+
+	if err := viper.ReadInConfig(); err != nil {
+		panic(fmt.Errorf("Fatal error config file: %w \n", err))
 	}
 
-	loadServer(file)
-	loadLog(file)
-	loadDatabase(file)
-	loadFabric(file)
+	loadDefault()
+	loadServer()
+	loadLog()
+	loadDatabase()
+	loadFabric()
+}
+func loadDefault() {
+	viper.SetDefault("server.app_mode", "debug")
+	viper.SetDefault("server.http_port", ":9999")
+
+	viper.SetDefault("log.log_output", "stdout")
+	viper.SetDefault("log.log_level", "debug")
+	viper.SetDefault("log.log_format", "text")
+	viper.SetDefault("log.log_store", "")
+	viper.SetDefault("log.log_max_age", "432000")   // 5 * 24 * 60 * 60
+	viper.SetDefault("log.log_max_size", "1048576") // 1024 * 1024
+
+	viper.SetDefault("database.db_host", "localhost")
+	viper.SetDefault("database.db_port", "5432")
+	viper.SetDefault("database.db_user", "refiner")
+	viper.SetDefault("database.db_password", "123456")
+	viper.SetDefault("database.db_name", "ledgerdata_refiner")
+
+	viper.SetDefault("fabric.org_name", "Org1")
+	viper.SetDefault("fabric.org_admin", "Admin")
+	viper.SetDefault("fabric.org_user", "User1")
+	viper.SetDefault("fabric.channel_id", "mychannel")
+	viper.SetDefault("fabric.network_name", "test-network")
+	viper.SetDefault("fabric.client_name", "test-client")
 }
 
-func loadServer(file *ini.File) {
-	AppMode = file.Section("server").Key("app_mode").MustString("debug")
-	HttpPort = file.Section("server").Key("http_port").MustString(":9999")
+func loadServer() {
+	AppMode = viper.GetString("server.app_mode")
+	HttpPort = viper.GetString("server.http_port")
 }
 
-func loadLog(file *ini.File) {
-	LogOutput = file.Section("log").Key("log_output").MustString("stdout")
-	LogLevel = file.Section("log").Key("log_level").MustString("debug")
-	LogFormat = file.Section("log").Key("log_format").MustString("text")
-	LogStore = file.Section("log").Key("log_store").MustString("")
+func loadLog() {
+	LogOutput = viper.GetString("log.log_output")
+	LogLevel = viper.GetString("log.log_level")
+	LogFormat = viper.GetString("log.log_format")
+	LogStore = viper.GetString("log.log_store")
 	LogStore = filepath.Join(os.Getenv("HOME"), LogStore)
-	LogMaxAge = file.Section("log").Key("log_max_age").MustInt64(5 * 24 * 60 * 60)
-	LogMaxSize = file.Section("log").Key("log_max_size").MustInt64(1048576)
+	LogMaxAge, _ = strconv.ParseInt(viper.GetString("log.log_max_age"), 10, 64)
+	LogMaxSize, _ = strconv.ParseInt(viper.GetString("log.log_max_size"), 10, 64)
 }
 
-func loadDatabase(file *ini.File) {
-	DBHost = file.Section("database").Key("db_host").MustString("localhost")
-	DBPort = file.Section("database").Key("db_port").MustString("5432")
-	DBUser = file.Section("database").Key("db_user").MustString("refiner")
-	DBPassword = file.Section("database").Key("db_password").MustString("123456")
-	DBName = file.Section("database").Key("db_name").MustString("ledgerdata_refiner")
+func loadDatabase() {
+	DBHost = viper.GetString("database.db_host")
+	DBPort = viper.GetString("database.db_port")
+	DBUser = viper.GetString("database.db_user")
+	DBPassword = viper.GetString("database.db_password")
+	DBName = viper.GetString("database.db_name")
 }
 
-func loadFabric(file *ini.File) {
-	OrgName = file.Section("fabric").Key("org_name").MustString("Org1")
-	OrgAdmin = file.Section("fabric").Key("org_admin").MustString("Admin")
-	OrgUser = file.Section("fabric").Key("org_user").MustString("User1")
-	ChannelId = file.Section("fabric").Key("channel_id").MustString("mychannel")
-	NetworkName = file.Section("fabric").Key("network_name").MustString("test-network")
-	ClientName = file.Section("fabric").Key("client_name").MustString("test-client")
+func loadFabric() {
+	OrgName = viper.GetString("fabric.org_name")
+	OrgAdmin = viper.GetString("fabric.org_admin")
+	OrgUser = viper.GetString("fabric.org_user")
+	ChannelId = viper.GetString("fabric.channel_id")
+	NetworkName = viper.GetString("fabric.network_name")
+	ClientName = viper.GetString("fabric.client_name")
 }
