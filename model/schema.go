@@ -62,8 +62,8 @@ func GetChaincodeNameByChannelId(channelId int) ([]string, error) {
 
 func CountChaincodeByChannelId(channelId int) (int64, error) {
 	var count int64
-	err := db.Table("schema").Select("count(chaincode_name)").
-		Where("channel_id = ?", channelId).Group("chaincode_name").
+	err := db.Table("schema").Select("count(distinct(chaincode_name))").
+		Where("channel_id = ?", channelId).
 		Find(&count).Error
 	if err != nil {
 		logger.WithField("error", err).Error("failed to get count of chaincode")
